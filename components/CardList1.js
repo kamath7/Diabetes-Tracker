@@ -17,6 +17,7 @@ const CardList1 = () => {
       <Content>
         {lalleData.map((data, i) => (
           <CardItem1
+            key={i}
             date={data.date}
             reading={data.reading}
             optionTaken={data.optionTaken}
