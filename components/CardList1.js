@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { Container, Content } from "native-base";
+import axios from "axios";
 
 import LalleHeader from "./LalleHeader";
 import CardItem1 from "./CardItem1";
 
-const lalleData = [
-  { date: "24, March 2020", reading: "180", optionTaken: "Without Fast" },
-  { date: "20, April 2020", reading: "330", optionTaken: "With Fast" },
-  { date: "29, January 2020", reading: "200", optionTaken: "Without Fast" },
-];
 const CardList1 = () => {
+  const [lalleData, setLalleData] = useState([]);
+  useEffect(() => {
+    // console.log("App started!");
+    axios.get(`https://lalle-diabetes-tracker.herokuapp.com/records`).then((response) => setLalleData(response.data));
+  }, []);
   return (
     <Container>
       <LalleHeader />
       <Content>
         {lalleData.map((data, i) => (
           <CardItem1
-            key={i}
-            date={data.date}
+            key={data._id}
+            date={data.readingDate}
             reading={data.reading}
-            optionTaken={data.optionTaken}
+            optionTaken={data.fastingOption}
           />
         ))}
       </Content>

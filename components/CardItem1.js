@@ -1,4 +1,6 @@
 import React from "react";
+import moment from 'moment';
+
 import {
   Container,
   Header,
@@ -13,7 +15,7 @@ const CardItem1 = (props) => {
   return (
     <Card>
       <CardItem header>
-        <Text>{props.date}</Text>
+        <Text>{moment(props.date).format('Do, MMMM YYYY')}</Text>
       </CardItem>
       <CardItem>
         <Body>
