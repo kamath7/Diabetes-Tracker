@@ -1,11 +1,13 @@
-import React from "react";
+import React , {useState, useEffect} from "react";
 import { Dimensions } from "react-native";
 import { Container, Content, Text } from "native-base";
 import { LineChart } from "react-native-chart-kit";
+import axios from 'axios';
 
 import LalleHeader from "./LalleHeader";
 
 const LalleGraph = (props) => {
+  
   return (
     <Container>
       <LalleHeader />

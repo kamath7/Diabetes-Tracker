@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Alert} from 'react-native';
 import {
   Container,
   Header,
@@ -17,6 +18,7 @@ import {
   Button,
   Icon,
 } from "native-base";
+import axios from 'axios';
 import { sendGridEmail } from "react-native-sendgrid";
 
 import LalleHeader from './LalleHeader';
@@ -25,13 +27,28 @@ const EntryForm = () => {
   const [fastingMechanism, setFastingMechanism] = useState("With Fast");
   const [dateRecord, setDateRecord] = useState(new Date());
 
-  const SENDGRIDAPIKEY = process.env.EMAIL_KEY;
-  const FROMEMAIL = "adithyakamath96@gmail.com";
+  const SENDGRIDAPIKEY = process.env.SENDGRIDAPIKEY;
+  const FROMEMAIL = "drkams96@gmail.com";
   const TOMEMAIL = "adithyakamath96@gmail.com";
   const SUBJECT = "New Diabetes Record";
 
   const handleSubmit = () => {
     const message = `A new record has been added. The diabetes reading is at ${diabetesReading}. It was done on ${dateRecord} and was done on '${fastingMechanism}'`;
+    axios.post(`https://lalle-diabetes-tracker.herokuapp.com/records`,{
+      reading: diabetesReading,
+      readingDate: dateRecord,
+      fastingOption: fastingMechanism
+    },{
+      headers:{
+        'content-type':'application/json'
+      }
+    }).then((response)=>{
+      console.log(response);
+      Alert.alert('Success','Record Added',[{text:'Okay',onPress:()=>{console.log('Done!')}}])
+    }).catch((err)=>{
+      console.log(err);
+      Alert.alert('Error','Something went wrong. Please enter again',[{text:'Okay',onPress:()=>{console.log('Done!')}}])
+    })
     const sendRequest = sendGridEmail(
       SENDGRIDAPIKEY,
       TOMEMAIL,
